@@ -17,6 +17,18 @@ const userRegSchema = new Schema(
         type: Boolean,
         default: true,
       },
+      email: {
+        type: String,
+        unique: true,
+        lowercase: true,
+      },
+      emailVerification: {
+        type: Boolean,
+        default: false,
+      },
+      password: {
+        type: String,
+      },
       createdAt: {
         type: Date,
         default: Date.now,

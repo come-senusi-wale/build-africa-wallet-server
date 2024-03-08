@@ -18,12 +18,12 @@ class TelegramService {
         this.walletmodel = walletmodel
     }
 
-    private nearConnet = async() => {
+    private nearConnet = async(network: any) => {
         return await connect({
-            networkId: 'testnet', // Or 'mainnet'
-            nodeUrl: 'https://rpc.testnet.near.org', 
+            networkId: `${network}`, // Or 'mainnet'
+            nodeUrl: `https://rpc.${network}.near.org`, 
             deps: { keyStore: new keyStores.InMemoryKeyStore() },
-            helperUrl: "https://helper.testnet.near.org",
+            helperUrl: `https://helper.${network}.near.org`,
         })
     } 
 
@@ -64,7 +64,8 @@ class TelegramService {
 
             let walletDetail = []
 
-            const near = await this.nearConnet()
+            const network = process.env.NETWORK
+            const near = await this.nearConnet(network)
 
             for (let i = 0; i < wallets.length; i++) {
                 const element = wallets[i];
@@ -72,17 +73,40 @@ class TelegramService {
                 const account = await near.account(element.accountId);
                 const balance = (await account.getAccountBalance()).available;
 
-                const availableBalance = parseInt(balance) / 10**26
+                const availableBalance = parseInt(balance) / 10**24
 
                 const obj = {
                     wallet: element.accountId,
-                    amount: availableBalance.toFixed(2)
+                    amount: availableBalance.toFixed(5)
                 }
                 
                 walletDetail.push(obj)
             }
             
             return { status: true, walletDetail };
+
+        } catch (err) {
+            return { status: false, message: 'error please send "/start" request again' };
+        }
+    }
+
+    getAllWalletofAUser = async ( { telegramId, }: { telegramId: string; } ) => {
+        try {
+            const user = await this.userRegModel.findOne({telgramId: telegramId})
+            console.log('user', user)
+            if (!user) {
+                return { status: false, message: 'error please send "/start" request again' };
+            }
+
+            const wallets = await this.walletmodel.find({telgramId: telegramId})
+
+            if (wallets.length < 1) {
+                if (!user) {
+                    return { status: false, message: 'error please create atleat one account' };
+                }
+            }
+
+            return { status: true, wallets };
 
         } catch (err) {
             return { status: false, message: 'error please send "/start" request again' };

@@ -5,6 +5,9 @@ export interface IUserReg extends Document {
   telgramId: string
   nin: string;
   verified: boolean;
+  email: string;
+  emailVerification: boolean;
+  password: string
   createdAt: Date;
   updatedAt: Date;
 }

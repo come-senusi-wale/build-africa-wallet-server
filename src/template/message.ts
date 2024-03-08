@@ -1,13 +1,13 @@
 
 export class MessageTemplete {
     static defaultMessage = (message: string) => (
-        "══════[ 💎 OLABot 💎 ]══════\n"+
+        "══════[ 💎 BUIDLAFRICABot 💎 ]══════\n"+
         `${message}\n`+
         "_______________________________________________\n"
     )
 
     static walletBalance = (wallets: any) => {
-        let res = "══════[ 💎 OLABot 💎 ]══════\n";
+        let res = "══════[ 💎 BUIDLAFRICABot 💎 ]══════\n";
 
         for (let i = 0; i < wallets.length; i++) {
             const element = wallets[i];
