@@ -24,10 +24,10 @@ export const privatee = async () => {
           // Get account ID from key pair
             // Get account ID from key pair
            
-        const accountId = await near.connection.signer.(
-            near.config.networkId,
-            keyPair.getPublicKey()
-        );
+        // const accountId = await near.connection.signer.(
+        //     near.config.networkId,
+        //     keyPair.getPublicKey()
+        // );
 
         // Generate mnemonic phrase from key pair
         const mnemonicPhrase = keyPair.toString();

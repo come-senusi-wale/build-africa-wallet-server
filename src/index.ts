@@ -5,6 +5,7 @@ import mongoose, { ConnectOptions, MongooseOptions } from "mongoose";
 import dotenv from "dotenv";
 import walletRoutes from "./api/wallet/route/route";
 import authRoutes from "./api/auth/route/route";
+import tokenRoutes from "./api/token/route/route";
 import { useTelegramBot } from "./bot/telegram.route";
 
 dotenv.config();
@@ -13,10 +14,11 @@ dotenv.config();
 import { testTwo } from "./api/controller/wale";
 import { privatee } from "./api/controller/useprivatekey";
 import { balance } from "./api/controller/bal";
-import { privateKey } from "./api/controller/priavate";
+// import { privateKey } from "./api/controller/priavate";
 import { sendNearToken } from "./api/controller/sendToken";
 import { sendNearTokenTwo } from "./api/controller/sendnear";
 import { sendNearTokenTree } from "./api/controller/sendTokenTree";
+import { viewCall } from "./api/controller/viewCall";
 
 // test()
  //testTwo()
@@ -26,6 +28,7 @@ import { sendNearTokenTree } from "./api/controller/sendTokenTree";
 // sendNearToken()
 //sendNearTokenTwo()
 //sendNearTokenTree()
+//viewCall()
 
 useTelegramBot()
 
@@ -48,6 +51,7 @@ app.use(
 
 app.use("/api", walletRoutes);
 app.use("/api", authRoutes);
+app.use("/api", tokenRoutes);
 
 // database connection
 const MONGODB_URI = process.env.MONGODB_URI as string;

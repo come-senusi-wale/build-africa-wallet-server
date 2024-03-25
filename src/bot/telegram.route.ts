@@ -5,6 +5,7 @@ import WalletModel from "../database/model/wallet.model";
 import { useWalletBotRoutes } from "./routes/wallet.route";
 import EncryptionRepository from "../config/encryption.config";
 import { useRegistrationBotRoutes } from "./routes/registration.route";
+import { useTokenBotRoutes } from "./routes/token.route";
 
 export const useTelegramBot = () => {
     const YOUR_BOT_TOKEN = process.env.BOT_TOKEN!;
@@ -59,6 +60,7 @@ export const useTelegramBot = () => {
 
     useWalletBotRoutes({bot, telegramService})
     useRegistrationBotRoutes({bot, telegramService})
+    useTokenBotRoutes({bot, telegramService})
 
     bot.launch();
 

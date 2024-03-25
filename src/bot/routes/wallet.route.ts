@@ -1,7 +1,6 @@
 import { Telegraf, Markup } from 'telegraf';
 import TelegramService from "../telegramService";
 import { MessageTemplete } from "../../template/message";
-import { Console } from 'console';
 
 
 export const useWalletBotRoutes = ({bot, telegramService} : {
@@ -82,7 +81,7 @@ export const useWalletBotRoutes = ({bot, telegramService} : {
             if (!ctx.chat) return ctx.reply('unable to load wallets', keyboard);
 
             const telegramId = ctx.chat.id.toString();
-            console.log('telegramid', telegramId)
+            
             const response = await telegramService.getWalletBalance({telegramId});
             if (!response.walletDetail) return ctx.reply(response.message!, keyboard);
 

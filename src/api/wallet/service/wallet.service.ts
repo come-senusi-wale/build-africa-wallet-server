@@ -218,40 +218,27 @@ class WalletService {
         amount: number
     }) => {
         try {
-            console.log(1)
             const decoded: any = this._encryption.decryptToken(token, TokenType.accessToken);
             if (!decoded?.telegramId) return { errors: [{ message: 'Invalid request'}] };
             const user = await UserRegModel.findOne({ telgramId: decoded?.telegramId });
             if (!user) return { errors: [{ message: 'user not found'}] };
 
-            console.log(2)
-
-            // if (!user.verified) return { errors: [{ message: 'account not verified'}] };
+            if (!user.verified) return { errors: [{ message: 'account not verified'}] };
 
             if (!user.emailVerification) return { errors: [{ message: 'email not verified'}] };
-
-            console.log(3)
 
             const wallet = await WalletModel.findOne({telgramId: decoded?.telegramId, accountId: accountId})
             if (!wallet) return { errors: [{ message: 'unable to get account'}] };
 
-            console.log(4)
-
             const network = process.env.NETWORK
             const near = await this.nearPrivateKeyConnet(network, this.decryptToken(wallet.privateKey), accountId)
-
-            console.log(5)
 
             // create a NEAR account object
             const senderAccount = await near.account(accountId);
 
-            console.log(6)
-
             const amountINYocNear = utils.format.parseNearAmount(amount.toString());
 
             const result = await senderAccount.sendMoney(to, amountINYocNear)
-
-            console.log(7)
 
             return {status: true, data: {transactionHash: result.transaction.hash} };
 
