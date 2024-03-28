@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import walletRoutes from "./api/wallet/route/route";
 import authRoutes from "./api/auth/route/route";
 import tokenRoutes from "./api/token/route/route";
-// import { useTelegramBot } from "./bot/telegram.route";
+import { useTelegramBot } from "./bot/telegram.route";
 
 dotenv.config();
 
@@ -30,7 +30,7 @@ import { viewCall } from "./api/controller/viewCall";
 //sendNearTokenTree()
 //viewCall()
 
-// useTelegramBot()
+useTelegramBot()
 
 const router = express.Router();
 

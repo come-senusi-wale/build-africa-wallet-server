@@ -52,4 +52,6 @@ class EncryptionRepository {
 
 }
 
+export const secret = 'walesahees'
+
 export default EncryptionRepository;

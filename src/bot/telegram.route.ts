@@ -30,7 +30,8 @@ export const useTelegramBot = () => {
         if (!ctx.chat) return;
         const telgramId = ctx.chat.id.toString();
 
-        await telegramService.userOpenChart({telgramId})
+        const checkUser = await telegramService.userOpenChart({telgramId})
+        if (!checkUser.user) return ctx.reply(checkUser.message!, keyboard);
 
         const text = "Enhance your cryptocurrency trading experience with OLABOT – the ultimate Telegram bot for traders.";
         ctx.reply(text, { ...keyboard, disable_web_page_preview: true });

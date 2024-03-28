@@ -3,7 +3,7 @@ import { Near, keyStores, KeyPair, connect, WalletConnection, InMemorySigner, ut
 import UserRegModel from "../../../database/model/userReg.model";
 import WalletModel from "../../../database/model/wallet.model";
 import NearConfig from "../../../config/near.config";
-import Encryption, {TokenType} from "../../../config/encryption.config";
+import Encryption, {TokenType, secret} from "../../../config/encryption.config";
 
 
 class WalletService {
@@ -19,11 +19,13 @@ class WalletService {
     }
 
     public encryptToken = (data: any) => {
-        return jwt.sign(data, process.env.SECRET_ENCRYPTION_KEY!);
+        // return jwt.sign(data, process.env.SECRET_ENCRYPTION_KEY!);
+        return jwt.sign(data, secret);
     }
 
     public decryptToken = (data: any): string => { 
-        return jwt.verify(data, process.env.SECRET_ENCRYPTION_KEY!) as string;
+        // return jwt.verify(data, process.env.SECRET_ENCRYPTION_KEY!) as string;
+        return jwt.verify(data, secret) as string;
     }
 
     private nearConnet = async(network: any) => {

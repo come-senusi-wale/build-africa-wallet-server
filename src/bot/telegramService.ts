@@ -1,7 +1,7 @@
 import UserRegModel from "../database/model/userReg.model";
 import WalletModel from "../database/model/wallet.model";
 import TokenModel from "../database/model/token.model";
-import EncryptionRepository from "../config/encryption.config";
+import EncryptionRepository, {secret} from "../config/encryption.config";
 import { Near, keyStores, KeyPair, connect, WalletConnection, InMemorySigner, Contract } from "near-api-js";
 import jwt from 'jsonwebtoken';
 
@@ -21,11 +21,13 @@ class TelegramService {
     }
 
     public encryptToken = (data: any) => {
-        return jwt.sign(data, process.env.SECRET_ENCRYPTION_KEY!);
+        // return jwt.sign(data, process.env.SECRET_ENCRYPTION_KEY!);
+        return jwt.sign(data, secret);
     }
 
     public decryptToken = (data: any): string => { 
-        return jwt.verify(data, process.env.SECRET_ENCRYPTION_KEY!) as string;
+        // return jwt.verify(data, process.env.SECRET_ENCRYPTION_KEY!) as string;
+        return jwt.verify(data, secret) as string;
     }
 
     private nearConnet = async(network: any) => {
@@ -63,13 +65,20 @@ class TelegramService {
     }
 
     userOpenChart = async ({ telgramId }: { telgramId: string }) => {
-        const user = await this.userRegModel.findOne({telgramId})
-        if (!user) {
-            const newUser = new this.userRegModel({
-                telgramId
-            })
+        try {
+            let user = await this.userRegModel.findOne({telgramId})
+            if (!user) {
+                const newUser = new this.userRegModel({
+                    telgramId
+                })
 
-            await newUser.save()
+                user = await newUser.save()
+            }
+
+            return { status: true, user };
+
+        } catch (error) {
+            return { status: false, message: 'unable to get user detail please send "/start" request again' };
         }
     }
 
