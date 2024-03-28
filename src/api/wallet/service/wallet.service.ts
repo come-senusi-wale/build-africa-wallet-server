@@ -19,13 +19,13 @@ class WalletService {
     }
 
     public encryptToken = (data: any) => {
-        // return jwt.sign(data, process.env.SECRET_ENCRYPTION_KEY!);
-        return jwt.sign(data, secret);
+        return jwt.sign(data, process.env.SECRET_ENCRYPTION_KEY!);
+        // return jwt.sign(data, secret);
     }
 
     public decryptToken = (data: any): string => { 
-        // return jwt.verify(data, process.env.SECRET_ENCRYPTION_KEY!) as string;
-        return jwt.verify(data, secret) as string;
+        return jwt.verify(data, process.env.SECRET_ENCRYPTION_KEY!) as string;
+        // return jwt.verify(data, secret) as string;
     }
 
     private nearConnet = async(network: any) => {
@@ -137,8 +137,8 @@ class WalletService {
 
         console.log(2)
 
-        // const network = process.env.NETWORK
-        const network = 'testnet'
+        const network = process.env.NETWORK
+        // const network = 'testnet'
         const near = await this.nearConnet(network)
 
         const keyPair = KeyPair.fromRandom('ed25519');

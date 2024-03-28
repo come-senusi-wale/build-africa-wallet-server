@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-// const accessTokenSecret = process.env.ACCESS_TOKEN
-const accessTokenSecret = 'wasksjdkslslslsk'
+const accessTokenSecret = process.env.ACCESS_TOKEN
+// const accessTokenSecret = 'wasksjdkslslslsk'
 const adminAccessTokenSecret = process.env.ADMIN_ACCESS_TOKEN
 
 export enum TokenType {
