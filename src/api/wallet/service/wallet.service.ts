@@ -137,7 +137,7 @@ class WalletService {
 
         console.log(2)
 
-        const network = process.env.NETWORK
+        const network = process.env.NETWORK?.toString()
         // const network = 'testnet'
         const near = await this.nearConnet(network)
 
