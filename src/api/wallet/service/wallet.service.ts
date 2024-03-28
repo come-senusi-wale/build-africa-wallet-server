@@ -146,12 +146,17 @@ class WalletService {
 
         try {
             const state  = await (await near.account(accountId)).state()
+            console.log(4)
             return { errors: [{ message: 'account already taken'}] };
+            
         } catch (error) {
             try {
+                console.log(5)
                 const publicKeyString = keyPair.getPublicKey().toString()
             
                 const publicKeyData = keyPair.getPublicKey().data.toString()
+
+                console.log(6)
 
                 const publicKeyHex = Buffer.from( keyPair.getPublicKey().data).toString('hex');
 
@@ -159,16 +164,20 @@ class WalletService {
 
                 await near.createAccount(accountId, keyPair.getPublicKey());
 
+                console.log(7)
+
                 const keyStore = new keyStores.InMemoryKeyStore();
                 await keyStore.setKey('testnet', accountId, keyPair);
         
                 const signer = new InMemorySigner(keyStore);
                 const mnemonic = await signer.keyStore.getKey(near.connection.networkId, accountId).finally()
+
+                console.log(8)
              
                 // Retrieve the private key
                 const privateKey = keyPair.toString().split(':')[1];
 
-                console.log(4)
+                console.log(9)
 
                 const newWallet = new WalletModel({
                     telgramId: decoded?.telegramId,
@@ -182,7 +191,7 @@ class WalletService {
 
                 await newWallet.save()
 
-                console.log(5)
+                console.log(10)
 
                 return {status: true, data: {accountId} };
 
