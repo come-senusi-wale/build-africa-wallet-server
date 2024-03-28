@@ -4,6 +4,7 @@ import UserRegModel from "../../../database/model/userReg.model";
 import WalletModel from "../../../database/model/wallet.model";
 import NearConfig from "../../../config/near.config";
 import Encryption, {TokenType, secret} from "../../../config/encryption.config";
+import Buffer from "buffer";
 
 
 class WalletService {
