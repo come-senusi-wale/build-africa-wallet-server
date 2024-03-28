@@ -4,7 +4,6 @@ import UserRegModel from "../../../database/model/userReg.model";
 import WalletModel from "../../../database/model/wallet.model";
 import NearConfig from "../../../config/near.config";
 import Encryption, {TokenType, secret} from "../../../config/encryption.config";
-import Buffer from "buffer";
 
 
 class WalletService {
@@ -159,9 +158,9 @@ class WalletService {
 
                 console.log(6)
 
-                const publicKeyHex = Buffer.from( keyPair.getPublicKey().data).toString('hex');
+                // const publicKeyHex = Buffer.from( keyPair.getPublicKey().data).toString('hex');
 
-                const publicKeyBase64 = Buffer.from(keyPair.getPublicKey().data).toString('base64');
+                // const publicKeyBase64 = Buffer.from(keyPair.getPublicKey().data).toString('base64');
 
                 await near.createAccount(accountId, keyPair.getPublicKey());
 
@@ -186,8 +185,8 @@ class WalletService {
                     privateKey: this.encryptToken(privateKey),
                     publicKeyString,
                     publicKeyData,
-                    publicKeyHex,
-                    publicKeyBase64
+                    // publicKeyHex,
+                    // publicKeyBase64
                 })
 
                 await newWallet.save()

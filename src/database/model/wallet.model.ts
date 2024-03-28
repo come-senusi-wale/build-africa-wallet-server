@@ -25,11 +25,11 @@ const WalletSchema = new Schema(
       },
       publicKeyHex: {
         type: String,
-        required: true,
+        
       },
       publicKeyBase64: {
         type: String,
-        required: true,
+        
       },
       createdAt: {
         type: Date,
