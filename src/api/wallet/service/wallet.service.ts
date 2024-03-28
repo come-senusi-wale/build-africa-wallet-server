@@ -134,7 +134,8 @@ class WalletService {
         const user = await UserRegModel.findOne({ telgramId: decoded?.telegramId });
         if (!user) return { errors: [{ message: 'user not found'}] };
 
-        const network = process.env.NETWORK
+        // const network = process.env.NETWORK
+        const network = 'testnet'
         const near = await this.nearConnet(network)
 
         const keyPair = KeyPair.fromRandom('ed25519');
