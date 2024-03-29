@@ -137,15 +137,17 @@ class WalletService {
 
         console.log(2)
 
-        // const network = process.env.NETWORK?.toString()
-        const network = 'testnet'
+        const network = process.env.NETWORK?.toString()
+        // const network = 'testnet'
         const near = await this.nearConnet(network)
 
         const keyPair = KeyPair.fromRandom('ed25519');
         console.log(3)
 
+        const accountToSmall = accountId.toLowerCase()
+
         try {
-            const state  = await (await near.account(accountId)).state()
+            const state  = await (await near.account(accountToSmall)).state()
             console.log(4)
             return { errors: [{ message: 'account already taken'}] };
             
@@ -156,23 +158,21 @@ class WalletService {
             
                 const publicKeyData = keyPair.getPublicKey().data.toString()
 
-                console.log('near', near)
-
                 console.log(6)
 
                 // const publicKeyHex = Buffer.from( keyPair.getPublicKey().data).toString('hex');
 
                 // const publicKeyBase64 = Buffer.from(keyPair.getPublicKey().data).toString('base64');
 
-                await near.createAccount(accountId, keyPair.getPublicKey());
+                await near.createAccount(accountToSmall, keyPair.getPublicKey());
 
                 console.log(7)
 
                 const keyStore = new keyStores.InMemoryKeyStore();
-                await keyStore.setKey('testnet', accountId, keyPair);
+                await keyStore.setKey('testnet', accountToSmall, keyPair);
         
                 const signer = new InMemorySigner(keyStore);
-                const mnemonic = await signer.keyStore.getKey(near.connection.networkId, accountId).finally()
+                const mnemonic = await signer.keyStore.getKey(near.connection.networkId, accountToSmall).finally()
 
                 console.log(8)
              
@@ -183,7 +183,7 @@ class WalletService {
 
                 const newWallet = new WalletModel({
                     telgramId: decoded?.telegramId,
-                    accountId,
+                    accountId: accountToSmall,
                     privateKey: this.encryptToken(privateKey),
                     publicKeyString,
                     publicKeyData,
@@ -195,7 +195,7 @@ class WalletService {
 
                 console.log(10)
 
-                return {status: true, data: {accountId} };
+                return {status: true, data: {accountId: accountToSmall} };
 
             } catch (error) {
                 return { errors: [{ message: 'unable to create account'}] };
