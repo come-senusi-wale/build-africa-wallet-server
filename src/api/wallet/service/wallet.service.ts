@@ -129,36 +129,28 @@ class WalletService {
         accountId: string, 
         token: string
     }) => {
-        console.log(1)
         const decoded: any = this._encryption.decryptToken(token, TokenType.accessToken);
         if (!decoded?.telegramId) return { errors: [{ message: 'Invalid request'}] };
         const user = await UserRegModel.findOne({ telgramId: decoded?.telegramId });
         if (!user) return { errors: [{ message: 'user not found'}] };
-
-        console.log(2)
 
         const network = process.env.NETWORK?.toString()
         // const network = 'testnet'
         const near = await this.nearConnet(network)
 
         const keyPair = KeyPair.fromRandom('ed25519');
-        console.log(3)
 
         const accountToSmall = accountId.toLowerCase()
 
         try {
             const state  = await (await near.account(accountToSmall)).state()
-            console.log(4)
             return { errors: [{ message: 'account already taken'}] };
             
         } catch (error) {
             try {
-                console.log(5)
                 const publicKeyString = keyPair.getPublicKey().toString()
             
                 const publicKeyData = keyPair.getPublicKey().data.toString()
-
-                console.log(6)
 
                 // const publicKeyHex = Buffer.from( keyPair.getPublicKey().data).toString('hex');
 
@@ -166,20 +158,14 @@ class WalletService {
 
                 await near.createAccount(accountToSmall, keyPair.getPublicKey());
 
-                console.log(7)
-
                 const keyStore = new keyStores.InMemoryKeyStore();
                 await keyStore.setKey('testnet', accountToSmall, keyPair);
         
                 const signer = new InMemorySigner(keyStore);
                 const mnemonic = await signer.keyStore.getKey(near.connection.networkId, accountToSmall).finally()
-
-                console.log(8)
              
                 // Retrieve the private key
                 const privateKey = keyPair.toString().split(':')[1];
-
-                console.log(9)
 
                 const newWallet = new WalletModel({
                     telgramId: decoded?.telegramId,
@@ -192,8 +178,6 @@ class WalletService {
                 })
 
                 await newWallet.save()
-
-                console.log(10)
 
                 return {status: true, data: {accountId: accountToSmall} };
 
