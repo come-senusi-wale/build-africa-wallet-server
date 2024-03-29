@@ -8,7 +8,8 @@ import { useRegistrationBotRoutes } from "./routes/registration.route";
 import { useTokenBotRoutes } from "./routes/token.route";
 
 export const useTelegramBot = () => {
-    const YOUR_BOT_TOKEN = process.env.BOT_TOKEN!;
+    // const YOUR_BOT_TOKEN = process.env.BOT_TOKEN!;
+    const YOUR_BOT_TOKEN = '6950721062:AAFirFmZScAwahSt2JVI_xmCvtwTS5sC1XU'
     const bot = new Telegraf(YOUR_BOT_TOKEN);
 
     const encryptionRepository = new EncryptionRepository()
