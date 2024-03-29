@@ -156,6 +156,8 @@ class WalletService {
             
                 const publicKeyData = keyPair.getPublicKey().data.toString()
 
+                console.log('near', near)
+
                 console.log(6)
 
                 // const publicKeyHex = Buffer.from( keyPair.getPublicKey().data).toString('hex');
